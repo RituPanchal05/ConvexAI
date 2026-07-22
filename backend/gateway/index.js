@@ -1,3 +1,11 @@
+/**
+ * API Gateway
+ *
+ * Acts as the entry point for all client requests.
+ * Handles authentication, middleware configuration,
+ * and forwards requests to individual microservices.
+ */
+
 import express from "express"
 import dotenv from "dotenv"
 import proxy from "express-http-proxy"
@@ -22,6 +30,7 @@ app.use(cors({
 app.use(cookieParser())
 app.use("/api/auth", proxy(process.env.AUTH_SERVICE))
 app.use("/api/chat", protect ,proxyWithHeaders(process.env.CHAT_SERVICE))
+app.use("/api/agent", protect ,proxy(process.env.AGENT_SERVICE))
 
 app.get("/api/me", protect ,getCurrentUser)
 
